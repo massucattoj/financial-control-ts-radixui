@@ -1,0 +1,44 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "description": "Software development",
+      "type": "income",
+      "category": "Job Service",
+      "price": 14000,
+      "createdAt": "2024-06-24T19:25:43.170Z"
+    },
+    {
+      "id": 2,
+      "description": "Pizza",
+      "type": "outcome",
+      "category": "Food",
+      "price": 129,
+      "createdAt": "2024-06-24T19:15:43.170Z"
+    },
+    {
+      "id": 3,
+      "description": "Sushi",
+      "type": "outcome",
+      "category": "Food",
+      "price": 135,
+      "createdAt": "2024-06-23T19:15:10.170Z"
+    },
+    {
+      "description": "Aluguel Apartamento",
+      "price": 1800,
+      "category": "Despesas Fixas",
+      "type": "outcome",
+      "createdAt": "2024-06-26T13:49:08.423Z",
+      "id": 4
+    },
+    {
+      "description": "Internet",
+      "price": 100,
+      "category": "Despesas Fixas",
+      "type": "outcome",
+      "createdAt": "2024-06-26T14:03:14.275Z",
+      "id": 5
+    }
+  ]
+}
