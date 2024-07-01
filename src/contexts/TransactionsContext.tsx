@@ -70,7 +70,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     //         console.log(data)
     //     })
     fetchTransactions()
-  }, [])
+  }, [fetchTransactions])
 
   return (
     <TransactionsContext.Provider
