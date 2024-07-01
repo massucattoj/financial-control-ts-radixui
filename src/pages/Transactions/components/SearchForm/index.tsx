@@ -3,8 +3,17 @@ import { SeachFormContainer } from './styles'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useContext } from 'react'
 import { TransactionsContext } from '../../../../contexts/TransactionsContext'
+import { useContextSelector } from 'use-context-selector'
+import { memo } from 'react'
+
+/**
+ * useMemo -> use when have a lot of components to render in screen (heavy html)
+ * Memo:
+ * 0. Hooks changed, props changed (deep comparison)
+ * 0.1 Comparar com a versao anterior
+ * 0.2 Se mudou algo, ele permite a nova renderizacao
+ */
 
 // Schema form
 const searchFormSchema = z.object({
@@ -14,8 +23,13 @@ const searchFormSchema = z.object({
 // Type form
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
-export function SearchForm() {
-  const { fetchTransactions } = useContext(TransactionsContext)
+function SearchFormComponent() {
+  const fetchTransactions = useContextSelector(
+    TransactionsContext,
+    (context) => {
+      return context.fetchTransactions
+    },
+  )
 
   const {
     register,
@@ -44,3 +58,5 @@ export function SearchForm() {
     </SeachFormContainer>
   )
 }
+
+export const SearchForm = memo(SearchFormComponent)

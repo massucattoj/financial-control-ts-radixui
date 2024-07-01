@@ -1,5 +1,6 @@
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState, useCallback } from 'react'
 import { api } from '../lib/axios'
+import { createContext } from 'use-context-selector'
 
 interface Transaction {
   id: number
@@ -32,22 +33,7 @@ export const TransactionsContext = createContext({} as TransactionContextType)
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
-  async function createTransaction(data: CreateTransactionInput) {
-    const { description, price, category, type } = data
-
-    const response = await api.post('/transactions', {
-      description,
-      price,
-      category,
-      type,
-      createdAt: new Date(),
-      // ...data -> se nao quiser usar desestruturacao
-    })
-
-    setTransactions((state) => [response.data, ...state])
-  }
-
-  async function fetchTransactions(query?: string) {
+  const fetchTransactions = useCallback(async (query?: string) => {
     const response = await api.get('/transactions', {
       params: {
         _sort: 'createdAt',
@@ -57,19 +43,25 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     })
 
     setTransactions(response.data)
+  }, [])
 
-    // WITH FETCH
-    // const url = new URL('http://localhost:3333/transactions')
+  const createTransaction = useCallback(
+    async (data: CreateTransactionInput) => {
+      const { description, price, category, type } = data
 
-    // if (query) {
-    //     url.searchParams.append('q', query)
-    // }
+      const response = await api.post('/transactions', {
+        description,
+        price,
+        category,
+        type,
+        createdAt: new Date(),
+        // ...data -> se nao quiser usar desestruturacao
+      })
 
-    // const response = await fetch(url)
-    // const data = await response.json()
-
-    // setTransactions(data)
-  }
+      setTransactions((state) => [response.data, ...state])
+    },
+    [],
+  )
 
   useEffect(() => {
     // fetch('http://localhost:3333/transactions')
